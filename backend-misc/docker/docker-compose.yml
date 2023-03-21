@@ -1,0 +1,35 @@
+version: '3.7'
+volumes:
+  mysql_data:
+    driver: local
+
+services:
+  employee-management-db:
+    image: mysql:latest
+    container_name: employee-management-db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - mynetwork-net
+    environment:
+      MYSQL_DATABASE: assignment
+      MYSQL_ROOT_PASSWORD: pa55w0rd
+      
+  #Before running this file go to employee-management-assignment\backend\backend-app and run the following command
+  #to build a docker image 
+  #docker build -t <imagename> .
+  logicaldoc_app:
+   image: docker.io/library/employeeassignment2
+   container_name: employeeassignment_backend_app
+   ports:
+    - "8050:8050"
+   depends_on:
+    - employee-management-db
+   restart: always
+   networks:
+    mynetwork-net:
+
+networks:
+  mynetwork-net:

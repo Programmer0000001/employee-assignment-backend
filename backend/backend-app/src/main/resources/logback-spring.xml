@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <!--Application name taken from yml file-->
+    <springProperty scope="context" name="APPLICATION_NAME" source="spring.application.name"/>
+
+    <!--Where log are stored-->
+    <property name="LOGS" value="C:/employee-management/logs"></property>
+
+    <property name="LOG_PATTERN"
+              value="%d{HH:mm:ss.SSS} [${APPLICATION_NAME}] [%thread] %green(%X{traceId}), %cyan(%X{spanId}) %-5level %logger{36} - %msg%n"/>
+
+    <!--Appender takes logging data and publishes it to the console-->
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>${LOG_PATTERN}</Pattern>
+        </encoder>
+    </appender>
+
+    <!--Appender takes logging data and publishes it to a file-->
+    <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>
+            ${LOGS}/${APPLICATION_NAME}.log
+        </file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--Log pattern for file-->
+            <Pattern>%d{HH:mm:ss.SSS} [%thread] %X{correlationId} %-5level %logger{36} - %msg%n</Pattern>
+        </encoder>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily and when the file reaches 10 MegaBytes -->
+            <!--Save old log file as .gz for compression-->
+            <!--The variable i is used to increment current log file name in case maxFileSize is reached-->
+            <fileNamePattern>
+                ${LOGS}/archive/${APPLICATION_NAME}-%d{yyyy-MM-dd}.%i.log.gz
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!--Max file size can go up to 10 MB, else a new file is created, the previous file is renamed and the i variable is incremented-->
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!--maxHistory -> Keep a history of only 60 log files-->
+            <maxHistory>60</maxHistory>
+            <totalSizeCap>2GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <!-- LOG everything at INFO level-->
+    <!--LOG level: Trace > Debug > Info > Warn > Error > Fatal-->
+    <!--Take all log data and push to the two appenders-->
+    <root level="info">
+        <appender-ref ref="RollingFile"/>
+        <appender-ref ref="Console"/>
+    </root>
+
+    <logger name="mu.management.employee" level="info" additivity="false">
+        <appender-ref ref="RollingFile"/>
+        <appender-ref ref="Console"/>
+    </logger>
+
+</configuration>

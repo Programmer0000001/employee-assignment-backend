@@ -1,0 +1,6 @@
+#Configuration specific to my local environment
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/assignment
+    username: root
+    password: pa55w0rd
