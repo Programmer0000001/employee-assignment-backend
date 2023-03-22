@@ -21,7 +21,7 @@ services:
   #to build a docker image 
   #docker build -t <imagename> .
   logicaldoc_app:
-   image: docker.io/library/employeeassignment2
+   image: docker.io/library/employeeassignment:test
    container_name: employeeassignment_backend_app
    ports:
     - "8050:8050"
