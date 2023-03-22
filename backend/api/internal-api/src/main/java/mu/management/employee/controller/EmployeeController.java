@@ -38,7 +38,7 @@ import mu.management.employee.service.EmployeeService;
 @RequestMapping(path = "/employee")
 @Validated
 @Slf4j
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*") //For front end to make api call to backend
 public class EmployeeController {
     private final EmployeeService employeeService;
 
@@ -99,5 +99,4 @@ public class EmployeeController {
         log.debug("Inside Search All Employees API");
         return employeeService.searchAllEmployees();
     }
-
 }

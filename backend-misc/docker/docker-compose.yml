@@ -4,6 +4,7 @@ volumes:
     driver: local
 
 services:
+  #mysql database service name
   employee-management-db:
     image: mysql:latest
     container_name: employee-management-db

@@ -16,7 +16,6 @@ import lombok.experimental.SuperBuilder;
  *
  * @author oudayrao.ittoo
  */
-
 @Data
 @SuperBuilder
 @NoArgsConstructor

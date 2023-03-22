@@ -26,9 +26,7 @@ public class ExceptionResponse {
 
     public ExceptionResponse(HttpStatus httpStatus, Object[] errorKeys) {
         this.httpStatus = httpStatus;
-        this.errorMessage = Arrays.stream(errorKeys).map((errorKey) -> {
-            return Translator.toLocale(String.valueOf(errorKey));
-        }).collect(Collectors.joining(","));
+        this.errorMessage = Arrays.stream(errorKeys).map((errorKey) -> Translator.toLocale(String.valueOf(errorKey))).collect(Collectors.joining(","));
     }
 
     public ExceptionResponse(HttpStatus httpStatus, String errorKey, Object[] params) {

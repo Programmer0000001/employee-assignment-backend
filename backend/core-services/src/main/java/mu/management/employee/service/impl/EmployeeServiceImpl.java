@@ -107,6 +107,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<EmployeeResponse> searchAllEmployees() {
+        log.info("Inside searchAllEmployees");
+        
         return employeeMapper.toEmployeeResponse(employeeRepository.findAll());
     }
 }

@@ -14,6 +14,5 @@ import mu.management.employee.generic.EmployeeGenericDetails;
 @SuperBuilder
 @NoArgsConstructor
 public class EmployeeResponse extends EmployeeGenericDetails {
-
     private Long userId;
 }

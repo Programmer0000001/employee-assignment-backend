@@ -21,5 +21,4 @@ public class Constant {
     public static final String REGION_NAME_SIZE = "regionName.size";
     public static final String EMPLOYEE_LIST_ID = "employee.list.delete.mandatory";
     public static final String ID_NULL = "employee.list.delete.mandatory";
-
 }

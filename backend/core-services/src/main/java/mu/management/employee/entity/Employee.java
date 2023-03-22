@@ -44,7 +44,6 @@ public class Employee extends BaseEntity {
     @Column(name = "region_name")
     private String regionName;
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
