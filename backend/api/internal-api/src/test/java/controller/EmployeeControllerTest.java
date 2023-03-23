@@ -172,4 +172,28 @@ public class EmployeeControllerTest extends RestControllerMockAbstractTest {
             Assertions.assertEquals(exceptionMsg, bindingResult.getFieldError().getDefaultMessage());
         }
     }
+
+    @Test
+    @DisplayName("call searchEmployeeByFilter api and expect status ok")
+    @SneakyThrows
+    void test_searchEmployeeByFilter_Ok() {
+        mockMvc.perform(MockMvcRequestBuilders.get("/employee/filter")
+                        .param("pageNumber", "0")
+                        .param("pageSize", "100")
+                        .param("sortBy", "userId")
+                        .param("sortOrder", "DESC"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("call searchEmployeeByFilter api and expect status bad request")
+    @SneakyThrows
+    void test_searchEmployeeByFilter_NotOk() {
+        mockMvc.perform(MockMvcRequestBuilders.get("/employee/filter")
+                        .param("pageNumber", "0")
+                        .param("pageSize", "100")
+                        .param("sortBy", "userId")
+                        .param("sortOrder", ""))
+                .andExpect(status().isBadRequest());
+    }
 }

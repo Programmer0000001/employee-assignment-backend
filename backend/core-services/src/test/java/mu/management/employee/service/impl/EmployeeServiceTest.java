@@ -25,7 +25,9 @@ import mu.management.employee.repository.EmployeeRepository;
 import mu.management.employee.request.EmployeeListUpdateRequest;
 import mu.management.employee.request.EmployeeRequest;
 import mu.management.employee.request.EmployeeRequestList;
+import mu.management.employee.request.EmployeeSearchCriteria;
 import mu.management.employee.request.EmployeeUpdateRequest;
+import mu.management.employee.response.EmployeeListResponse;
 import mu.management.employee.response.EmployeeResponse;
 import mu.management.employee.service.EmployeeService;
 import mu.management.employee.utils.EmployeeTestDataUtil;
@@ -167,4 +169,43 @@ class EmployeeServiceTest extends MockAbstractTest {
         }
     }
 
+    /**
+     * <p>Test data used for test_searchEmployeeByFilter function</p>
+     *
+     * @return Stream Argument
+     */
+    static Stream<Arguments> testData_searchEmployeeByFilter() {
+        //Criteria for searching existing employee -- only 1 match
+        EmployeeSearchCriteria employeeSearchCriteriaFound = EmployeeTestDataUtil.buildEmployeeSearchCriteria();
+
+        //Criteria for searching non-existing employee -- 0 match
+        EmployeeSearchCriteria employeeSearchCriteriaNotFound = EmployeeTestDataUtil.buildEmployeeSearchCriteria();
+        employeeSearchCriteriaNotFound.setLastName("Dummy");
+
+        return Stream.of(
+                arguments(true, employeeSearchCriteriaFound, 1, 1),
+                arguments(false, employeeSearchCriteriaNotFound, 0, 0)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("testData_searchEmployeeByFilter")
+    @DisplayName("[searchEmployeeByFilter] Should return employee matching the search request")
+    void test_searchEmployeeByFilter(Boolean valid, EmployeeSearchCriteria employeeSearchCriteria, int totalElements, int listSize) {
+        //Search employee
+        EmployeeListResponse employeeListResponse = employeeService.searchEmployeeByFilter(employeeSearchCriteria);
+
+        //Assertions
+        Assertions.assertNotNull(employeeListResponse);
+        Assertions.assertEquals(totalElements, employeeListResponse.getTotalElement());
+        Assertions.assertEquals(listSize, employeeListResponse.getEmployeeResponses().size());
+
+        if (valid) {
+            EmployeeResponse employeeResponse = employeeListResponse.getEmployeeResponses().get(0);
+            Employee employeeSavedInDb = employeeListActualSaved.get(0);
+
+            //Assert Id
+            assertEquals(employeeSavedInDb.getUserId(), employeeResponse.getUserId());
+        }
+    }
 }

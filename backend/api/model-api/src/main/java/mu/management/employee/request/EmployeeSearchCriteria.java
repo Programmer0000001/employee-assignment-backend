@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 /**
  * <p>Request sent to search for employee using query dsl</p>
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
+@SuperBuilder
 public class EmployeeSearchCriteria {
     private Long employeeId;
     private String firstName;

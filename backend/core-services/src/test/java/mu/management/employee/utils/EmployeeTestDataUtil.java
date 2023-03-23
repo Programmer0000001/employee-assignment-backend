@@ -5,6 +5,7 @@ import java.util.List;
 import mu.management.employee.request.EmployeeListUpdateRequest;
 import mu.management.employee.request.EmployeeRequest;
 import mu.management.employee.request.EmployeeRequestList;
+import mu.management.employee.request.EmployeeSearchCriteria;
 import mu.management.employee.request.EmployeeUpdateRequest;
 
 /**
@@ -45,6 +46,16 @@ public class EmployeeTestDataUtil {
     public static EmployeeListUpdateRequest buildEmployeeListUpdateRequest() {
         return EmployeeListUpdateRequest.builder()
                 .employeeUpdateRequests(List.of(buildEmployeeUpdateRequest()))
+                .build();
+    }
+
+    public static EmployeeSearchCriteria buildEmployeeSearchCriteria() {
+        return EmployeeSearchCriteria.builder()
+                .sortOrder("DESC")
+                .pageSize(100)
+                .pageNumber(0)
+                .sortBy("userId")
+                .buCode(buildEmployeeRequest().getBuCode())
                 .build();
     }
 }
