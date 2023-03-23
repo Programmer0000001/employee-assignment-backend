@@ -5,6 +5,10 @@ import static mu.management.employee.shared.Constant.ID_NULL;
 
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,15 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mu.management.employee.entity.Employee;
 import mu.management.employee.request.EmployeeListUpdateRequest;
 import mu.management.employee.request.EmployeeRequestList;
+import mu.management.employee.request.EmployeeSearchCriteria;
 import mu.management.employee.request.EmployeeUpdateRequest;
+import mu.management.employee.response.EmployeeListResponse;
 import mu.management.employee.response.EmployeeResponse;
 import mu.management.employee.service.EmployeeService;
 
@@ -50,7 +53,7 @@ public class EmployeeController {
      */
     @PostMapping
     public List<Employee> saveMultipleEmployees(@Valid @RequestBody EmployeeRequestList employeeRequestList) {
-        log.info("Saving list of employees given employeeRequestList {}", employeeRequestList);
+        log.info("Saving list of employees given employeeRequestList");
         return employeeService.saveMultipleEmployees(employeeRequestList);
     }
 
@@ -73,8 +76,9 @@ public class EmployeeController {
      */
     @DeleteMapping
     public void deleteEmployeeList(@RequestParam @NotEmpty(message = EMPLOYEE_LIST_ID) List<Long> ids) {
+        log.info("Deleting list of employees with ids {}", ids);
         employeeService.deleteEmployeeList(ids);
-        log.info("List of employees with ids {}, DELETED", ids);
+        log.info("List of employees with ids {}, DELETED SUCCESSFULLY", ids);
     }
 
     /**
@@ -99,4 +103,17 @@ public class EmployeeController {
         log.debug("Inside Search All Employees API");
         return employeeService.searchAllEmployees();
     }
+
+    /**
+     * <p>API to search for Employee given {@link EmployeeSearchCriteria}</p>
+     *
+     * @param employeeSearchCriteria {@link EmployeeSearchCriteria}
+     * @return {@link EmployeeResponse}
+     */
+    @GetMapping("/filter")
+    public EmployeeListResponse searchEmployeeByFilter(@Valid EmployeeSearchCriteria employeeSearchCriteria) {
+        log.debug("Inside Search Employee by Filter API");
+        return employeeService.searchEmployeeByFilter(employeeSearchCriteria);
+    }
+
 }

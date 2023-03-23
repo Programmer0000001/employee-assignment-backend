@@ -1,5 +1,8 @@
 package mu.management.employee.exception;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -8,8 +11,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 
 /**

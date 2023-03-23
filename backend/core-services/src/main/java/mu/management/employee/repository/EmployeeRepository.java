@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 import mu.management.employee.entity.Employee;
@@ -14,8 +15,10 @@ import mu.management.employee.entity.Employee;
  *
  * @author oudayrao.ittoo
  */
+
+
 @Repository
-public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+public interface EmployeeRepository extends JpaRepository<Employee, Long>, QuerydslPredicateExecutor<Employee> {
 
     /**
      * <p>Custom function to find missing entities given their ids</p>

@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.4</version>
+        <version>2.7.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -31,11 +31,15 @@
         <!--Launcher class path-->
         <start-class>mu.management.employee.EmployeeManagementApplication</start-class>
 
+        <project.version>0.0.1-SNAPSHOT</project.version>
+
         <!--Libraries-->
         <liquibase.version>4.20.0</liquibase.version>
         <mapstruct.version>1.5.2.Final</mapstruct.version>
         <test-container.version>1.17.6</test-container.version>
-        <project.version>0.0.1-SNAPSHOT</project.version>
+        <querydsl.version>5.0.0</querydsl.version>
+        <lombok.version>1.18.22</lombok.version>
+        <lombok.mapstruct.binding.version>0.2.0</lombok.mapstruct.binding.version>
     </properties>
 
     <dependencies>
@@ -61,11 +65,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
     </dependencies>
 
@@ -107,6 +106,24 @@
                 <version>${test-container.version}</version>
                 <scope>test</scope>
             </dependency>
+
+            <dependency>
+                <groupId>com.querydsl</groupId>
+                <artifactId>querydsl-apt</artifactId>
+                <version>${querydsl.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.querydsl</groupId>
+                <artifactId>querydsl-jpa</artifactId>
+                <version>${querydsl.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.mysema.codegen</groupId>
+                <artifactId>codegen</artifactId>
+                <version>0.6.8</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -126,12 +143,12 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>1.18.22</version>
+                            <version>${lombok.version}</version>
                         </path>
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok-mapstruct-binding</artifactId>
-                            <version>0.2.0</version>
+                            <version>${lombok.mapstruct.binding.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

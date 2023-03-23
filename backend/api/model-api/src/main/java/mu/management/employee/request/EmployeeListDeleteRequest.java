@@ -2,7 +2,8 @@ package mu.management.employee.request;
 
 import java.util.List;
 
-import jakarta.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;

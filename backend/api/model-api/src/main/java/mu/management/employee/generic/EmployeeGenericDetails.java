@@ -2,8 +2,9 @@ package mu.management.employee.generic;
 
 import static mu.management.employee.shared.Constant.*;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;

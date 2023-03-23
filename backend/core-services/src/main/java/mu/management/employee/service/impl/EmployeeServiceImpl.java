@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,10 +17,13 @@ import mu.management.employee.entity.Employee;
 import mu.management.employee.exception.EmployeeManagementException;
 import mu.management.employee.exception.EmployeeManagementMsgKey;
 import mu.management.employee.mapper.EmployeeMapper;
+import mu.management.employee.predicate.EmployeePredicateBuilder;
 import mu.management.employee.repository.EmployeeRepository;
 import mu.management.employee.request.EmployeeListUpdateRequest;
 import mu.management.employee.request.EmployeeRequest;
 import mu.management.employee.request.EmployeeRequestList;
+import mu.management.employee.request.EmployeeSearchCriteria;
+import mu.management.employee.response.EmployeeListResponse;
 import mu.management.employee.response.EmployeeResponse;
 import mu.management.employee.service.EmployeeService;
 
@@ -33,6 +39,7 @@ import mu.management.employee.service.EmployeeService;
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
+    private final EmployeePredicateBuilder employeePredicateBuilder;
 
     @Override
     @Transactional
@@ -108,7 +115,28 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<EmployeeResponse> searchAllEmployees() {
         log.info("Inside searchAllEmployees");
-        
+
         return employeeMapper.toEmployeeResponse(employeeRepository.findAll());
+    }
+
+    @Override
+    public EmployeeListResponse searchEmployeeByFilter(EmployeeSearchCriteria employeeSearchCriteria) {
+        log.info("Retrieving employee with EmployeeSearchCriteria {}", employeeSearchCriteria);
+
+        //Build page request
+        PageRequest pageRequest = PageRequest.of(employeeSearchCriteria.getPageNumber(), employeeSearchCriteria.getPageSize(), employeeSearchCriteria.getSortOrder().equalsIgnoreCase("DESC") ? Sort.Direction.DESC : Sort.Direction.ASC, employeeSearchCriteria.getSortBy());
+
+        log.info("Building employee search criteria for EmployeeSearchCriteria {}", employeeSearchCriteria);
+
+        //Find all employees matching the search criteria
+        Page<Employee> employeePage = employeeRepository.findAll(employeePredicateBuilder.buildEmployeeFilter(employeeSearchCriteria), pageRequest);
+
+        log.info("Mapping retrieve employee from db to response for EmployeeSearchCriteria {}", employeeSearchCriteria);
+        EmployeeListResponse employeeListResponse = EmployeeListResponse.builder().employeeResponses(employeeMapper.toEmployeeResponse(employeePage.getContent())).build();
+
+        log.info("Total element found {} for EmployeeSearchCriteria {}", employeePage.getTotalElements(), employeeSearchCriteria);
+        employeeListResponse.setTotalElement(employeePage.getTotalElements());
+
+        return employeeListResponse;
     }
 }
