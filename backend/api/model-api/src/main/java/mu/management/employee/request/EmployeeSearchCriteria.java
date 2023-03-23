@@ -16,7 +16,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 public class EmployeeSearchCriteria {
-    private Long employeeId;
+    private Long userId;
     private String firstName;
     private String lastName;
     private String buCode;

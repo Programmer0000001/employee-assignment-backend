@@ -56,8 +56,8 @@ public class EmployeePredicateBuilder {
             predicateList.add(QEmployee.employee.regionName.equalsIgnoreCase(employeeSearchCriteria.getRegionName()));
         }
 
-        if (null != employeeSearchCriteria.getEmployeeId()) {
-            predicateList.add(QEmployee.employee.userId.eq(employeeSearchCriteria.getEmployeeId()));
+        if (null != employeeSearchCriteria.getUserId()) {
+            predicateList.add(QEmployee.employee.userId.eq(employeeSearchCriteria.getUserId()));
         }
 
         if (!predicateList.isEmpty()) {
